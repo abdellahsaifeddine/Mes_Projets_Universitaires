@@ -1,0 +1,26 @@
+# Fichiers de compilation
+*.o
+*.a
+*.exe
+*.out
+
+# Dossiers de build CodeBlocks
+bin/
+obj/
+
+# Fichiers de projet CodeBlocks
+*.depend
+*.layout
+*.cbp
+
+# SDL2 (bibliotheque externe, ne pas commiter)
+SDL2/
+SDL2.dll
+
+# Fichiers de sauvegarde de partie
+build/*.clb
+build/*.cls
+
+# OS
+.DS_Store
+Thumbs.db
