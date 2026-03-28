@@ -1,0 +1,40 @@
+Auteur : SAIFEDDINE Abdellah
+Universite de Poitiers - L2 Informatique - 2024-2025
+
+=== Explication de l'extension pour les numeros de places ===
+
+Pour integrer les numeros de places dans le format de commande, j'ai procede
+de la facon suivante :
+
+1. MODIFICATION DU FORMAT
+   La ligne d'un concert passe de :
+       codeConcert nomConcert date heure nb places
+   a :
+       codeConcert nomConcert date heure nb places num1 num2 ... numN
+
+   Apres le mot cle "places", on attend exactement "nb" entiers non signes
+   representant les numeros de places attribuees.
+
+2. MODIFICATION DE LA GRAMMAIRE (Yacc)
+   La regle de production d'un concert devient :
+
+   concert : CODE_CONCERT NOM_CONCERT DATE HEURE ENTIER PLACES liste_numeros RC
+
+   Avec la nouvelle regle :
+   liste_numeros : ENTIER
+                 | liste_numeros ENTIER
+
+   Cette regle est recursive a gauche, ce qui permet de reconnaitre une suite
+   d'un ou plusieurs entiers apres le mot "places".
+
+   Pour valider que le nombre de numeros fournis correspond bien a "nb",
+   on utilise un compteur incremente lors de la reduction de liste_numeros,
+   et on verifie l'egalite avec la valeur de ENTIER en fin de regle concert.
+
+3. MODIFICATION DU LEXER (Lex)
+   Aucune modification majeure necessaire cote lexer : les numeros de places
+   sont des entiers non signes, deja reconnus par la regle ENTIER existante.
+   Il suffit de s'assurer que la regle ENTIER couvre bien [0-9]+.
+
+4. EXEMPLE
+   Voir le fichier SAIFEDDINE.exempleCommande.txt dans le meme dossier.

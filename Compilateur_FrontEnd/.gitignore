@@ -1,0 +1,14 @@
+# Fichiers generes par Lex/Yacc
+bin/
+*.tab.c
+*.tab.h
+*.lex.c
+*.yy.c
+
+# Binaires
+*.o
+*.out
+
+# OS
+.DS_Store
+Thumbs.db
