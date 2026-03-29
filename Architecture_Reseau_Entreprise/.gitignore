@@ -1,0 +1,10 @@
+# Fichiers Packet Tracer (trop lourds pour GitHub)
+*.pkt
+*.pka
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

@@ -1,0 +1,71 @@
+============================================================
+   TOPOLOGIE GLOBALE — SaifNet Corp
+   Auteur : SAIFEDDINE Abdellah
+============================================================
+
+                        [ INTERNET ]
+                             |
+                      (IP Publique WAN)
+                             |
+                    +------------------+
+                    |  Firewall ASA    |
+                    |  192.168.40.1    |
+                    +------------------+
+                     /              \
+              [DMZ /28]         [Inside]
+           192.168.40.0         |
+          .10 Web               |
+          .11 Mail         +----+----+
+          .12 DNS          |  R0     |  Loopback: 1.1.1.1
+                           | Siège   |  Fa0/0: WAN
+                           | Poitiers|  Fa0/1: 192.168.99.2
+                           +---------+
+                           /         \
+               10.0.0.0/30             10.0.1.0/30
+               WAN Bordeaux            WAN Paris
+                    |                       |
+             +-----------+          +-----------+
+             |    R1      |          |    R2      |
+             | Bordeaux   |          |   Paris    |
+             | 10.0.0.2   |          | 10.0.1.2   |
+             | Loop:2.2.2.2|         | Loop:3.3.3.3|
+             +-----------+          +-----------+
+                  |                       |
+           +------------+          +------------+
+           | SW_Bordeaux|          |  SW_Paris  |
+           | Cisco 2960 |          | Cisco 2960 |
+           +------------+          +------------+
+            /          \            /           \
+       [VLAN50]     [VLAN60]   [VLAN70]      [VLAN80]
+      Commercial      RH         R&D          Support
+     192.168.50/26  .60/27    192.168.70/26  .80/27
+
+
+============================================================
+   SIÈGE POITIERS — Détail
+============================================================
+
+         [R0 Routeur Siège]
+                |
+         [SW_Siege Cisco 3560 L3]  ← Inter-VLAN routing (SVI)
+        /    |    |    \    \
+  [VLAN10][VLAN20][VLAN30][VLAN40][VLAN99]
+  Direction  DSI  Serveurs  DMZ   Management
+   /26        /26    /27    /28     /28
+
+  SW_Siege SVI :
+  - VLAN10 : 192.168.10.1 → 192.168.10.0/26
+  - VLAN20 : 192.168.20.1 → 192.168.20.0/26
+  - VLAN30 : 192.168.30.1 → 192.168.30.0/27
+  - VLAN40 : 192.168.40.1 → 192.168.40.0/28
+  - VLAN99 : 192.168.99.5 → 192.168.99.0/28 (management)
+
+============================================================
+   LÉGENDE
+============================================================
+
+  [ ] = Équipement réseau
+  --- = Lien Ethernet / Fibre
+  /30 = Lien point-à-point WAN
+  SVI = Switched Virtual Interface
+  DMZ = Zone démilitarisée
